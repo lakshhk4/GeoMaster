@@ -1,0 +1,63 @@
+
+
+// COUNTRY_CODES is a previously defined array which consists the unique country code of each flag that is in the game. 
+// Its length is 254.
+
+// ALREADY_ASKED is an array consiting of the correct answers of previously asked questions
+ALREADY_ASKED = []
+
+// This method will return a questionAndOptions integr array with 4 items.
+// 1) index of correctOption  2) index of falseOption1   3) index of falseOption2  4) index falseOption4
+
+// these indcies correspond to the position of the option's country code in the COUNTRY_CODES array
+function GENERATE_QUESTION:
+  QUESTION_AND_OPTIONS = [4]
+  Random RAND = new Random()
+
+  PREVIOUSLY_ASKED = true
+  CORRECT_OPTION_INDEX = -1
+
+  while PREVIOUSLY_ASKED = true
+    PREVIOUSLY_ASKED = true
+
+    CORRECT_OPTION_INDEX = RAND.nextInt(254);
+    PREVIOUSLY_ASKED = ALREADY_EXISTS(ALREADY_ASKED, CORRECT_OPTION_INDEX)
+  end loop 
+
+  // at this point, we have a unique question
+  QUESTION_AND_OPTIONS[0] += CORRECT_OPTION_INDEX
+
+  // now the three unique wrong answers need to be created.
+  // the false options must not be the same as the correct answer of a previously asked question
+  FALSE_ANSWERS = [3]
+  FALSE_OPTIONS_GENERATED = 0 
+
+  while FALSE_OPTIONS_GENERATED < 3
+    INDEX = RAND.nextInt(254)
+    
+    PREVIOUS_CORRECT_ANS  = ALREADY_EXISTS(ALREADY_ASKED, INDEX)
+    DUPLICATE_CORRECT_ANS = ALREADY_EXISTS(FALSE_ANSWERS, INDEX)
+    
+    if PREVIOUS_CORRECT_ANS = true AND DUPLICATE_CORRECT_ANS = true
+       // valid false option 
+       FALSE_ANSWERS[FALSE_OPTIONS_GENERATED] = INDEX
+       QUESTION_AND_OPTIONS[FALSE_OPTIONS_GENERATED + 1] = INDEX
+       FALSE_OPTIONS_GENERATED = FALSE_OPTIONS_GENERATED + 1
+    end if 
+  end loop
+end function
+
+function ALREADY_EXISTS(ARRAY, SEARCH):
+  EXISTS = false
+
+  loop I from 0 to ARRAY.length()
+    if ARRAY[I] = SEARCH
+      EXISTS = true
+    end if 
+  end loop
+
+  return EXISTS
+end function
+  
+
+
